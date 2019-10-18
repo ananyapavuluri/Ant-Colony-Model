@@ -48,12 +48,12 @@ to setup-food  ;; patch procedure
 ;  [ set food-source-number 3 ]
 ;  ;; set "food" at sources to either 1 or 2, randomly
   if food-source-number > 0
-  [ set food one-of [1 2]]
+  [ set food 0]
 end
 
 to setup-counter
   ;; set up a counter that is a physical shape, making it easier for users to see.
- if (distancexy (-0.8 * max-pxcor) (-0.6 * max-pycor)) < 5
+ if (distancexy (-0.9 * max-pxcor) (-0.7 * max-pycor)) < 5
   [set counter 1]
 end
 
@@ -106,7 +106,8 @@ to look-for-food  ;; turtle procedure
     set food food - 1        ;; and reduce the food source
     rt 180                   ;; and turn around
     stop ]
-  update-food
+  if ticks <= 1000
+  [update-food]
   ;; go in the direction where the chemical smell is strongest
   if (chemical >= 0.05) and (chemical < 2)
   [ uphill-chemical ]
@@ -114,10 +115,10 @@ to look-for-food  ;; turtle procedure
 end
 
 to update-food
-  if count turtles-at (-0.8 * max-pxcor) (-0.6 * max-pycor) != 0
+  if count turtles-at (-0.9 * max-pxcor) (-0.7 * max-pycor) != 0
   [
     if food-source-number = 1
-    [set food food + (count turtles-at (-0.8 * max-pxcor) (-0.6 * max-pycor))]
+    [set food food + 2]
   ]
 end
 
@@ -265,29 +266,47 @@ population
 population
 0.0
 200.0
-190.0
+71.0
 1.0
 1
 NIL
 HORIZONTAL
 
 PLOT
-14
-202
-241
-438
-Food in each pile
+31
+186
+231
+336
+Ants on Counter
 time
-food
+ants
 0.0
-50.0
+150.0
 0.0
-120.0
+10.0
 true
 false
 "" ""
 PENS
-"food-in-pile1" 1.0 0 -11221820 true "" "plotxy ticks sum [food] of patches with [pcolor = cyan]"
+"default" 1.0 0 -2064490 true "" "plotxy ticks count turtles-on patches with [pcolor = pink]"
+
+PLOT
+29
+348
+229
+498
+Amount of Food
+time
+food
+0.0
+150.0
+0.0
+20.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plotxy ticks sum [food] of patches with [pcolor = cyan]"
 
 @#$#@#$#@
 ## WHAT IS IT?
